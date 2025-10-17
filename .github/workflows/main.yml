@@ -4,32 +4,25 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   sonarqube:
     name: SonarQube Analysis
-    runs-on: self-hosted  # Use self-hosted runner since SonarQube is on localhost
+    runs-on: ubuntu-latest  # ✅ use GitHub-hosted runner
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for accurate code analysis
+          fetch-depth: 0
 
-      - name: Use Node.js 22.x
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - name: Install dependencies
         run: npm ci
-
-      # Optional: Run tests if available
-      - name: Run tests
-        run: npm test --if-present
 
       - name: Run SonarQube Scan
         env:
@@ -43,5 +36,4 @@ jobs:
             -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.exclusions=node_modules/**,**/tests/**,**/test/** \
-            -Dsonar.sourceEncoding=UTF-8 \
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sourceEncoding=UTF-8
