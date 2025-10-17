@@ -8,7 +8,7 @@ on:
 jobs:
   sonarqube:
     name: SonarQube Analysis
-    runs-on: ubuntu-latest  # GitHub-hosted runner
+    runs-on: ubuntu-latest  # GitHub cloud runner
 
     steps:
       - name: Checkout repository
