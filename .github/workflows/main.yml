@@ -1,4 +1,4 @@
-name: SonarQube Scan
+name: Node.js CI with SonarQube
 
 on:
   push:
@@ -6,9 +6,9 @@ on:
       - main
 
 jobs:
-  sonarqube:
-    name: SonarQube Analysis
-    runs-on: ubuntu-latest  # GitHub cloud runner
+  build:
+    name: Build, Install Dependencies & Run SonarQube
+    runs-on: self-hosted  # <-- your PC where Docker SonarQube runs
 
     steps:
       - name: Checkout repository
@@ -27,7 +27,7 @@ jobs:
       - name: Run SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # set to http://localhost:9000
         run: |
           npx sonar-scanner \
             -Dsonar.projectKey=OllamaChatbot \
