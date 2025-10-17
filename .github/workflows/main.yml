@@ -8,13 +8,13 @@ on:
 jobs:
   sonarqube:
     name: SonarQube Analysis
-    runs-on: self-hosted  # must be your local runner (same machine as Docker SonarQube)
+    runs-on: ubuntu-latest  # GitHub-hosted runner
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history for SonarQube
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
